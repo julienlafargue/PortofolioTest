@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tia-Lana Chinapyel | Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:'Poppins', sans-serif;
+      background:#0f0f0f;
+      color:white;
+      overflow-x:hidden;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    /* NAVBAR */
+
+    nav{
+      position:fixed;
+      width:100%;
+      top:0;
+      left:0;
+      padding:20px 8%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:rgba(0,0,0,0.5);
+      backdrop-filter:blur(10px);
+      z-index:1000;
+    }
+
+    .logo{
+      font-size:1.3rem;
+      font-weight:700;
+      letter-spacing:2px;
+    }
+
+    .nav-links{
+      display:flex;
+      gap:30px;
+    }
+
+    .nav-links a{
+      font-size:0.95rem;
+      transition:0.3s;
+    }
+
+    .nav-links a:hover{
+      color:#d8b4ff;
+    }
+
+    /* HERO */
+
+    .hero{
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:0 10%;
+      background:
+      linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
+      url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1974&auto=format&fit=crop') center/cover;
+    }
+
+    .hero-content h1{
+      font-size:4rem;
+      margin-bottom:20px;
+      font-weight:700;
+    }
+
+    .hero-content p{
+      max-width:700px;
+      margin:auto;
+      font-size:1.1rem;
+      line-height:1.8;
+      color:#dddddd;
+    }
+
+    .hero-btn{
+      display:inline-block;
+      margin-top:35px;
+      padding:14px 35px;
+      background:#d8b4ff;
+      color:black;
+      border-radius:40px;
+      font-weight:600;
+      transition:0.3s;
+    }
+
+    .hero-btn:hover{
+      transform:translateY(-3px);
+      background:white;
+    }
+
+    /* SECTIONS */
+
+    section{
+      padding:100px 10%;
+    }
+
+    .section-title{
+      font-size:2.7rem;
+      margin-bottom:50px;
+      text-align:center;
+      position:relative;
+    }
+
+    .section-title::after{
+      content:"";
+      width:80px;
+      height:4px;
+      background:#d8b4ff;
+      position:absolute;
+      bottom:-15px;
+      left:50%;
+      transform:translateX(-50%);
+      border-radius:10px;
+    }
+
+    /* ABOUT */
+
+    .about{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(300px,1fr));
+      gap:50px;
+      align-items:center;
+    }
+
+    .about img{
+      width:100%;
+      border-radius:20px;
+      object-fit:cover;
+    }
+
+    .about-text p{
+      line-height:2;
+      color:#d6d6d6;
+      margin-bottom:20px;
+    }
+
+    /* SKILLS */
+
+    .skills-container{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:25px;
+    }
+
+    .skill-card{
+      background:#181818;
+      padding:30px;
+      border-radius:20px;
+      text-align:center;
+      transition:0.3s;
+      border:1px solid #262626;
+    }
+
+    .skill-card:hover{
+      transform:translateY(-8px);
+      border-color:#d8b4ff;
+    }
+
+    .skill-card h3{
+      margin-bottom:10px;
+    }
+
+    /* PORTFOLIO */
+
+    .portfolio-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:25px;
+    }
+
+    .portfolio-item{
+      position:relative;
+      overflow:hidden;
+      border-radius:20px;
+    }
+
+    .portfolio-item img{
+      width:100%;
+      height:350px;
+      object-fit:cover;
+      transition:0.5s;
+    }
+
+    .portfolio-overlay{
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.7);
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      opacity:0;
+      transition:0.4s;
+      padding:20px;
+      text-align:center;
+    }
+
+    .portfolio-item:hover img{
+      transform:scale(1.1);
+    }
+
+    .portfolio-item:hover .portfolio-overlay{
+      opacity:1;
+    }
+
+    .portfolio-overlay h3{
+      margin-bottom:10px;
+      font-size:1.4rem;
+    }
+
+    /* EXPERIENCE */
+
+    .timeline{
+      max-width:900px;
+      margin:auto;
+    }
+
+    .timeline-item{
+      background:#181818;
+      padding:30px;
+      border-left:4px solid #d8b4ff;
+      margin-bottom:25px;
+      border-radius:15px;
+    }
+
+    .timeline-item h3{
+      margin-bottom:8px;
+    }
+
+    .timeline-item span{
+      color:#d8b4ff;
+      font-size:0.9rem;
+    }
+
+    .timeline-item p{
+      margin-top:15px;
+      line-height:1.8;
+      color:#d4d4d4;
+    }
+
+    /* CONTACT */
+
+    .contact{
+      text-align:center;
+    }
+
+    .contact p{
+      margin-bottom:15px;
+      color:#d4d4d4;
+    }
+
+    .contact a{
+      color:#d8b4ff;
+    }
+
+    footer{
+      text-align:center;
+      padding:30px;
+      border-top:1px solid #222;
+      color:#888;
+    }
+
+    @media(max-width:768px){
+
+      .hero-content h1{
+        font-size:2.8rem;
+      }
+
+      .nav-links{
+        gap:15px;
+      }
+
+      .nav-links a{
+        font-size:0.8rem;
+      }
+
+      section{
+        padding:80px 7%;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+
+  <nav>
+    <div class="logo">TIA-LANA</div>
+
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="hero-content">
+      <h1>Tia-Lana Chinapyel</h1>
+
+      <p>
+        Creative photographer and media artist based in Paris.
+        Passionate about visual storytelling, photography,
+        branding and artistic direction.
+      </p>
+
+      <a href="#portfolio" class="hero-btn">View Portfolio</a>
+    </div>
+
+  </section>
+
+  <!-- ABOUT -->
+
+  <section id="about">
+
+    <h2 class="section-title">About Me</h2>
+
+    <div class="about">
+
+      <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1974&auto=format&fit=crop" alt="portrait">
+
+      <div class="about-text">
+
+        <p>
+          My name is Tia-Lana and I’m a UK-born creative based in Paris.
+          I have a deep love for visual storytelling which allows me to
+          explore emotion, narrative and aesthetics through photography
+          and media.
+        </p>
+
+        <p>
+          I enjoy experimenting with light, atmosphere and composition
+          to create visuals that feel emotional, cinematic and personal.
+          My work combines creativity with storytelling to create images
+          that leave a lasting impression.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- SKILLS -->
+
+  <section id="skills">
+
+    <h2 class="section-title">Skills</h2>
+
+    <div class="skills-container">
+
+      <div class="skill-card">
+        <h3>Photography</h3>
+        <p>Portrait, fashion, product & landscape photography.</p>
+      </div>
+
+      <div class="skill-card">
+        <h3>Photoshop</h3>
+        <p>Creative editing, retouching and visual manipulation.</p>
+      </div>
+
+      <div class="skill-card">
+        <h3>Canva</h3>
+        <p>Branding, posters, social media & visual design.</p>
+      </div>
+
+      <div class="skill-card">
+        <h3>CapCut</h3>
+        <p>Video editing and engaging social content creation.</p>
+      </div>
+
+      <div class="skill-card">
+        <h3>Branding</h3>
+        <p>Creative concepts, visual identity and storytelling.</p>
+      </div>
+
+      <div class="skill-card">
+        <h3>Content Creation</h3>
+        <p>Social media visuals with strong audience engagement.</p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- PORTFOLIO -->
+
+  <section id="portfolio">
+
+    <h2 class="section-title">Portfolio</h2>
+
+    <div class="portfolio-grid">
+
+      <div class="portfolio-item">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto=format&fit=crop" alt="portrait">
+
+        <div class="portfolio-overlay">
+          <h3>Portrait Photography</h3>
+          <p>Capturing emotion, personality and storytelling.</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1999&auto=format&fit=crop" alt="product">
+
+        <div class="portfolio-overlay">
+          <h3>Product Photography</h3>
+          <p>Clean, elegant and visually engaging product visuals.</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=2070&auto=format&fit=crop" alt="landscape">
+
+        <div class="portfolio-overlay">
+          <h3>Landscape Photography</h3>
+          <p>Atmospheric landscapes and cinematic environments.</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=2070&auto=format&fit=crop" alt="fashion">
+
+        <div class="portfolio-overlay">
+          <h3>Fashion Photography</h3>
+          <p>Editorial inspired shoots with strong visual identity.</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop" alt="creative">
+
+        <div class="portfolio-overlay">
+          <h3>Creative Narratives</h3>
+          <p>Experimental storytelling and artistic concepts.</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <img src="https://images.unsplash.com/photo-1493612276216-ee3925520721?q=80&w=2070&auto=format&fit=crop" alt="editing">
+
+        <div class="portfolio-overlay">
+          <h3>Graphic Design</h3>
+          <p>Posters, branding and digital visual experimentation.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- EXPERIENCE -->
+
+  <section id="experience">
+
+    <h2 class="section-title">Experience</h2>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <h3>Freelance Photographer</h3>
+        <span>2024 - Present</span>
+
+        <p>
+          Planned and executed creative photoshoots while editing
+          high-quality visual content for personal and creative projects.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <h3>Junior Project Designer — MCM</h3>
+        <span>2023</span>
+
+        <p>
+          Assisted in developing creative concepts for products
+          and branding projects.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <h3>Junior Brand Advisor — CXG Agency</h3>
+        <span>2024</span>
+
+        <p>
+          Evaluated brand performance and customer experience
+          while providing creative insight and recommendations.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <h3>Online Tutor</h3>
+        <span>2024 - Present</span>
+
+        <p>
+          Teaching GCSE English, French and Drama while helping
+          students build confidence and creativity.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CONTACT -->
+
+  <section id="contact" class="contact">
+
+    <h2 class="section-title">Contact</h2>
+
+    <p>Email: <a href="mailto:tiachinapyel@gmail.com">tiachinapyel@gmail.com</a></p>
+
+    <p>Location: Paris, France</p>
+
+    <p>
+      Available for photography, creative collaborations,
+      branding and media projects.
+    </p>
+
+  </section>
+
+  <!-- FOOTER -->
+
+  <footer>
+    © 2026 Tia-Lana Chinapyel — Portfolio Website
+  </footer>
+
+</body>
+</html>
