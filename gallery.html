@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gallery — Tia-Lana Chinapyel</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --cream: #F9F4EE;
+      --blush: #E8C8BE;
+      --rose: #C9736A;
+      --burgundy: #7A3336;
+      --warm-brown: #4A2E2C;
+      --sand: #D4B89A;
+      --soft-white: #FDF8F3;
+      --text-dark: #2A1A18;
+      --text-mid: #6B4A45;
+      --text-light: #A07870;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--soft-white);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.4;
+    }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      padding: 22px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(249, 244, 238, 0.92);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      border-bottom: 1px solid rgba(196, 140, 120, 0.15);
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--warm-brown);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--rose); }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      transition: color 0.3s;
+    }
+
+    .back-btn:hover { color: var(--rose); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      z-index: 1100;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 1.5px;
+      width: 100%;
+      background: var(--warm-brown);
+      transition: transform 0.4s cubic-bezier(.4,0,.2,1), opacity 0.3s, width 0.3s;
+      transform-origin: center;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--cream);
+      z-index: 999;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+
+    .mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 300;
+      color: var(--warm-brown);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s, transform 0.4s, color 0.3s;
+    }
+
+    .mobile-menu.open a { opacity: 1; transform: translateY(0); }
+    .mobile-menu.open a:nth-child(1) { transition-delay: 0.05s; }
+    .mobile-menu.open a:nth-child(2) { transition-delay: 0.1s; }
+    .mobile-menu.open a:nth-child(3) { transition-delay: 0.15s; }
+    .mobile-menu.open a:nth-child(4) { transition-delay: 0.2s; }
+    .mobile-menu.open a:nth-child(5) { transition-delay: 0.25s; }
+    .mobile-menu a:hover { color: var(--rose); }
+
+    /* ─── HERO HEADER ─── */
+    .gallery-hero {
+      padding: 160px 10% 60px;
+      background: var(--cream);
+      border-bottom: 1px solid rgba(196, 140, 120, 0.15);
+    }
+
+    .gallery-hero-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .gallery-hero p.label {
+      font-size: 0.65rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 16px;
+    }
+
+    .gallery-hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem;
+      font-weight: 300;
+      color: var(--warm-brown);
+      line-height: 1;
+    }
+
+    .gallery-hero h1 em {
+      font-style: italic;
+      color: var(--rose);
+    }
+
+    .gallery-hero-right {
+      text-align: right;
+    }
+
+    .gallery-hero-right p {
+      font-size: 0.85rem;
+      line-height: 2;
+      color: var(--text-light);
+      font-weight: 300;
+      max-width: 300px;
+    }
+
+    /* ─── FILTERS ─── */
+    .filters-bar {
+      background: var(--soft-white);
+      padding: 28px 10%;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      border-bottom: 1px solid rgba(196, 140, 120, 0.1);
+      position: sticky;
+      top: 66px;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(253, 248, 243, 0.95);
+    }
+
+    .filter-label {
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-right: 10px;
+    }
+
+    .filter-btn {
+      padding: 8px 20px;
+      border: 1px solid rgba(196, 140, 120, 0.3);
+      background: transparent;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      transition: all 0.3s;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--rose);
+      color: var(--rose);
+    }
+
+    .filter-btn.active {
+      background: var(--warm-brown);
+      border-color: var(--warm-brown);
+      color: var(--cream);
+    }
+
+    /* ─── GALLERY GRID ─── */
+    .gallery-section {
+      padding: 60px 10% 100px;
+    }
+
+    .masonry-grid {
+      columns: 3;
+      column-gap: 14px;
+    }
+
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      display: block;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      display: block;
+      filter: sepia(6%) saturate(88%);
+      transition: transform 0.7s ease, filter 0.5s;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.04);
+      filter: sepia(0%) saturate(100%);
+    }
+
+    .gallery-item-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(58,24,22,0.8) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px;
+    }
+
+    .gallery-item:hover .gallery-item-overlay { opacity: 1; }
+
+    .gallery-item-overlay h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: white;
+      margin-bottom: 3px;
+    }
+
+    .gallery-item-overlay span {
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .gallery-item.hidden {
+      display: none;
+    }
+
+    /* ─── LIGHTBOX ─── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 10, 8, 0.97);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s;
+    }
+
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lightbox-inner {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .lightbox img {
+      max-width: 80vw;
+      max-height: 85vh;
+      object-fit: contain;
+      filter: sepia(4%) saturate(90%);
+      display: block;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -50px;
+      right: 0;
+      background: none;
+      border: none;
+      color: rgba(232,200,190,0.6);
+      font-size: 1.8rem;
+      cursor: pointer;
+      font-weight: 300;
+      transition: color 0.3s;
+      line-height: 1;
+    }
+
+    .lightbox-close:hover { color: white; }
+
+    .lightbox-nav {
+      background: none;
+      border: 1px solid rgba(232,200,190,0.2);
+      color: rgba(232,200,190,0.6);
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.3s;
+      flex-shrink: 0;
+    }
+
+    .lightbox-nav:hover {
+      border-color: var(--blush);
+      color: white;
+    }
+
+    .lightbox-caption {
+      position: absolute;
+      bottom: -50px;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+
+    .lightbox-caption h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--blush);
+      font-weight: 300;
+    }
+
+    .lightbox-caption span {
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(232,200,190,0.4);
+    }
+
+    .lightbox-counter {
+      position: absolute;
+      top: -50px;
+      left: 0;
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(232,200,190,0.4);
+    }
+
+    /* ─── EMPTY STATE ─── */
+    .no-results {
+      text-align: center;
+      padding: 80px 0;
+      display: none;
+    }
+
+    .no-results p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      color: var(--text-light);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--warm-brown);
+      border-top: 1px solid rgba(232,200,190,0.1);
+      padding: 30px 10%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p {
+      font-size: 0.75rem;
+      color: rgba(232,200,190,0.4);
+      letter-spacing: 1px;
+    }
+
+    footer .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: rgba(232,200,190,0.4);
+    }
+
+    /* ─── FADE IN ─── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-up.visible { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .hamburger { display: flex; }
+      .nav-links { display: none; }
+      .mobile-menu { display: flex; }
+
+      nav { padding: 18px 6%; }
+
+      .gallery-hero { padding: 120px 6% 50px; }
+      .gallery-hero h1 { font-size: 3.5rem; }
+      .gallery-hero-right { text-align: left; }
+
+      .filters-bar { padding: 20px 6%; top: 60px; }
+
+      .masonry-grid { columns: 2; }
+
+      .gallery-section { padding: 40px 6% 80px; }
+
+      .lightbox img { max-width: 90vw; }
+      .lightbox-nav { width: 36px; height: 36px; font-size: 1rem; }
+    }
+
+    @media (max-width: 560px) {
+      .masonry-grid { columns: 1; }
+      .gallery-hero h1 { font-size: 2.8rem; }
+      .lightbox-inner { flex-direction: column; gap: 10px; }
+      .lightbox-nav { display: none; }
+      footer { flex-direction: column; gap: 10px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html" class="mobile-link">Home</a>
+    <a href="index.html#about" class="mobile-link">About</a>
+    <a href="index.html#skills" class="mobile-link">Skills</a>
+    <a href="index.html#portfolio" class="mobile-link">Portfolio</a>
+    <a href="index.html#experience" class="mobile-link">Experience</a>
+    <a href="index.html#contact" class="mobile-link">Contact</a>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="logo">Tia‑Lana</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#portfolio">Portfolio</a>
+      <a href="gallery.html" class="active">Gallery</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- HERO HEADER -->
+  <div class="gallery-hero">
+    <div class="gallery-hero-inner">
+      <div>
+        <p class="label">Visual Archive</p>
+        <h1>My<br><em>Gallery</em></h1>
+      </div>
+      <div class="gallery-hero-right">
+        <p>A curated collection of photographs across portraits, fashion, landscapes and more.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filters-bar">
+    <span class="filter-label">Filter</span>
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="portrait">Portraits</button>
+    <button class="filter-btn" data-filter="fashion">Fashion</button>
+    <button class="filter-btn" data-filter="landscape">Landscapes</button>
+    <button class="filter-btn" data-filter="product">Product</button>
+    <button class="filter-btn" data-filter="creative">Creative</button>
+  </div>
+
+  <!-- GALLERY -->
+  <section class="gallery-section">
+    <div class="masonry-grid fade-up" id="galleryGrid">
+
+      <div class="gallery-item" data-category="portrait" data-title="Golden Hour Portrait" data-caption="Portrait">
+        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1964&auto=format&fit=crop" alt="Portrait" loading="lazy">
+        <div class="gallery-item-overlay"><h4>Golden Hour Portrait</h4><span>Portrait</span></div>
+      </div>
+
+      <div class="gallery-item" data-category="fashion" data-title="Editorial Black" data-caption="Fashion">
+        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=2070&auto=format&fit=crop" alt="Fashion" loading="lazy">
+        <div class="gallery-item-overlay"><h4>Editorial Black</h4><span>Fashion</span></div>
+      </div>
+
+      <div class="gallery-item" data-category="landscape" data-title="Misty Mountains" data-caption="Landscape">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop" alt="Landscape" loading="lazy">
+        <div class="gallery-item-overlay"><h4>Misty Mountains</h4><span>Landscape</span></div>
+      </div>
+
+      <div class="gallery-item" data-category="portrait" data-title="Soft Light" data-caption="Portrait">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto=format&fit=crop" alt="Portrait" loading="lazy">
+        <div class="gallery-item-overlay"><h4>Soft Light</h4><span>Portrait</span></div>
+      </div>
+
+      <div class="gallery-item" data-category="product" data-title="Minimal Watch" data-caption="Product">
+        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1999&auto=format&fit=crop" alt="Product" loading="lazy">
+        <div class="gallery-item-overlay"><h4>Minimal Watch</h4><span>Product</span></div>
+      </div>
+
+      <div class="gallery-item" data-category="creative" data-title="Digital Dreams" data-caption="Creative">
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop" alt="Creative" loading="lazy">
+        <div class="gallery-item-overlay"><h4>Digital Dreams</h4><span>Creative</span></div>
+      </div>
+
+      <div class="gallery-item" data-category="landscape" data-title="Ocean Dusk" data-caption="Landscape">
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=2070&auto=format&fit=crop" alt="Landscape" loading="lazy">
+        <div class="gallery-item-overlay"><h4>Ocean Dusk</h4><span>Landscape</span></div>
+      </div>
+
+      <div class="gallery-item" data-category="fashion" data-title="Paris Streets" data-caption="Fashion">
+        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070&auto=format&fit=crop" alt="Fashion" loading="lazy">
+        <div class="gallery-item-overlay"><h4>Paris Streets</h4><span>Fashion</span></div>
+      </div>
+
+      <div class="gallery-item" data-category="portrait" data-title="Into the Light" data-caption="Portrait">
+        <img src="https://images.unsplash.com/photo-1488161628813-04466f872be2?q=80&w=1964&auto=format&fit=crop" alt="Portrait" loading="lazy">
+        <div class="gallery-item-overlay"><h4>Into the Light</h4><span>Portrait</span></div>
+      </div>
+
+      <div class="gallery-item" data-category="creative" data-title="Abstract Shapes" data-caption="Creative">
+        <img src="https://images.unsplash.com/photo-1493612276216-ee3925520721?q=80&w=2070&auto=format&fit=crop" alt="Creative" loading="lazy">
+        <div class="gallery-item-overlay"><h4>Abstract Shapes</h4><span>Creative</span></div>
+      </div>
+
+      <div class="gallery-item" data-category="product" data-title="Perfume" data-caption="Product">
+        <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=1974&auto=format&fit=crop" alt="Product" loading="lazy">
+        <div class="gallery-item-overlay"><h4>Parfum</h4><span>Product</span></div>
+      </div>
+
+      <div class="gallery-item" data-category="landscape" data-title="Forest Silence" data-caption="Landscape">
+        <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2070&auto=format&fit=crop" alt="Landscape" loading="lazy">
+        <div class="gallery-item-overlay"><h4>Forest Silence</h4><span>Landscape</span></div>
+      </div>
+
+      <div class="gallery-item" data-category="fashion" data-title="Soft Femininity" data-caption="Fashion">
+        <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=2073&auto=format&fit=crop" alt="Fashion" loading="lazy">
+        <div class="gallery-item-overlay"><h4>Soft Femininity</h4><span>Fashion</span></div>
+      </div>
+
+      <div class="gallery-item" data-category="portrait" data-title="Reverie" data-caption="Portrait">
+        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1974&auto=format&fit=crop" alt="Portrait" loading="lazy">
+        <div class="gallery-item-overlay"><h4>Reverie</h4><span>Portrait</span></div>
+      </div>
+
+      <div class="gallery-item" data-category="creative" data-title="Light & Geometry" data-caption="Creative">
+        <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=2070&auto=format&fit=crop" alt="Creative" loading="lazy">
+        <div class="gallery-item-overlay"><h4>Light & Geometry</h4><span>Creative</span></div>
+      </div>
+
+    </div>
+    <div class="no-results" id="noResults">
+      <p>No images in this category yet.</p>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-inner">
+      <span class="lightbox-counter" id="lightboxCounter">1 / 15</span>
+      <button class="lightbox-close" id="lightboxClose">✕</button>
+      <button class="lightbox-nav" id="lightboxPrev">←</button>
+      <img src="" alt="" id="lightboxImg">
+      <button class="lightbox-nav" id="lightboxNext">→</button>
+      <div class="lightbox-caption" id="lightboxCaption">
+        <h4></h4>
+        <span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">Tia-Lana Chinapyel</span>
+    <p>© 2026 — All rights reserved</p>
+  </footer>
+
+  <script>
+    // ─── HAMBURGER ───
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    // ─── SCROLL ANIMATIONS ───
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.05 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // ─── FILTERS ───
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const noResults = document.getElementById('noResults');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+        let visible = 0;
+
+        galleryItems.forEach(item => {
+          if (filter === 'all' || item.dataset.category === filter) {
+            item.classList.remove('hidden');
+            visible++;
+          } else {
+            item.classList.add('hidden');
+          }
+        });
+
+        noResults.style.display = visible === 0 ? 'block' : 'none';
+        updateVisibleItems();
+      });
+    });
+
+    // ─── LIGHTBOX ───
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxCounter = document.getElementById('lightboxCounter');
+
+    let currentIndex = 0;
+    let visibleItems = [];
+
+    function updateVisibleItems() {
+      visibleItems = [...galleryItems].filter(item => !item.classList.contains('hidden'));
+    }
+
+    updateVisibleItems();
+
+    function openLightbox(index) {
+      currentIndex = index;
+      const item = visibleItems[index];
+      const img = item.querySelector('img');
+      lightboxImg.src = img.src.replace('&w=2070', '&w=1600').replace('&w=1974', '&w=1600').replace('&w=1964', '&w=1600').replace('&w=1999', '&w=1600').replace('&w=2073', '&w=1600');
+      lightboxImg.alt = img.alt;
+      lightboxCaption.querySelector('h4').textContent = item.dataset.title;
+      lightboxCaption.querySelector('span').textContent = item.dataset.caption;
+      lightboxCounter.textContent = `${index + 1} / ${visibleItems.length}`;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    galleryItems.forEach((item, i) => {
+      item.addEventListener('click', () => {
+        updateVisibleItems();
+        const visibleIndex = visibleItems.indexOf(item);
+        if (visibleIndex !== -1) openLightbox(visibleIndex);
+      });
+    });
+
+    lightboxClose.addEventListener('click', closeLightbox);
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    lightboxPrev.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+      openLightbox(currentIndex);
+    });
+
+    lightboxNext.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % visibleItems.length;
+      openLightbox(currentIndex);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') lightboxPrev.click();
+      if (e.key === 'ArrowRight') lightboxNext.click();
+    });
+
+    // Touch swipe for lightbox
+    let touchStartX = 0;
+    lightbox.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+    lightbox.addEventListener('touchend', (e) => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) lightboxNext.click();
+        else lightboxPrev.click();
+      }
+    });
+  </script>
+
+</body>
+</html>
