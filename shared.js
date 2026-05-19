@@ -1,6 +1,6 @@
 /* ══════════════════════════════════════════
    SHARED.JS  —  Tia-Lana Chinapyel
-   Language · SPA Router · Animations
+   Language · Show/Hide Router · Animations
 ══════════════════════════════════════════ */
 
 /* ── HTML-content translations ── */
@@ -126,11 +126,9 @@ window.addEventListener('scroll', () => {
   if (!scrollTick) {
     requestAnimationFrame(() => {
       const y = window.scrollY;
-      /* parallax */
       document.querySelectorAll('.hero-right img, .page-hero-right img').forEach(img => {
         img.style.transform = `scale(1.07) translateY(${y * 0.1}px)`;
       });
-      /* progress bar */
       const bar = document.getElementById('scroll-progress');
       if (bar) {
         const d = document.documentElement;
@@ -144,14 +142,17 @@ window.addEventListener('scroll', () => {
 
 /* ── Hero lines entrance ── */
 function initHeroLines() {
-  const lines = document.querySelectorAll('.hero-line');
+  const activePage = document.getElementById('page-' + currentPage);
+  if (!activePage) return;
+  const lines = activePage.querySelectorAll('.hero-line');
+  lines.forEach(el => el.classList.remove('visible'));
   setTimeout(() => lines.forEach(el => el.classList.add('visible')), 350);
 }
 
 /* ── Cursor glow ── */
 function initCursorGlow() {
   if (window.matchMedia('(pointer:coarse)').matches) return;
-  if (document.getElementById('cursor-dot')) return; /* already added */
+  if (document.getElementById('cursor-dot')) return;
 
   const dot = Object.assign(document.createElement('div'), { id: 'cursor-dot' });
   dot.style.cssText = 'position:fixed;pointer-events:none;z-index:9998;width:6px;height:6px;border-radius:50%;background:var(--rose);opacity:0;transform:translate(-50%,-50%);transition:opacity .3s;mix-blend-mode:multiply';
@@ -207,139 +208,134 @@ function initHamburger() {
 }
 
 /* ── Nav active state ── */
-function updateNavActive(url) {
-  const page = (url.split('#')[0].split('/').pop() || 'index.html').toLowerCase();
+const PAGE_MAP = {
+  'index.html': 'home',
+  'acting.html': 'acting',
+  'photography.html': 'photography',
+};
+
+function updateNavActive(pageId) {
   document.querySelectorAll('.nav-links a, .mobile-menu a.ml').forEach(link => {
-    const href = (link.getAttribute('href') || '').split('#')[0].split('/').pop() || 'index.html';
-    link.classList.toggle('active', href.toLowerCase() === page);
+    const href = link.getAttribute('href') || '';
+    const [filePart] = href.split('#');
+    const fileName = (filePart.split('/').pop()) || 'index.html';
+    const linkPage = PAGE_MAP[fileName] || 'home';
+    link.classList.toggle('active', linkPage === pageId);
   });
 }
 
 /* ══════════════════════════════════════════
-   SPA ROUTER — swap only #page-content,
-   the nav never reloads
+   SHOW/HIDE ROUTER — one HTML file,
+   no fetch, no reload, truly fixed nav
 ══════════════════════════════════════════ */
-const pageCache = new Map();
+let currentPage = 'home';
 
-async function spaNavigate(url, pushState = true) {
-  const [pagePart, anchorPart] = url.split('#');
+function showPage(pageId, pushState = true) {
+  const nextEl = document.getElementById('page-' + pageId);
+  if (!nextEl) return;
 
-  /* Same-page anchor → just scroll */
-  const currentFile = window.location.pathname.split('/').pop() || 'index.html';
-  const targetFile  = (pagePart.split('/').pop() || 'index.html');
-  if (!pagePart || targetFile === currentFile) {
-    if (anchorPart) {
-      document.getElementById(anchorPart)?.scrollIntoView({ behavior: 'smooth' });
-    }
-    return;
+  const currentEl = document.getElementById('page-' + currentPage);
+
+  /* Fade out current page */
+  if (currentEl && currentEl !== nextEl) {
+    currentEl.style.transition = 'opacity 0.25s ease';
+    currentEl.style.opacity = '0';
   }
 
-  const content = document.getElementById('page-content');
+  setTimeout(() => {
+    /* Hide all pages */
+    document.querySelectorAll('.site-page').forEach(p => {
+      p.style.display = 'none';
+      p.classList.remove('active');
+    });
 
-  /* Fade out current content */
-  if (content) {
-    content.style.transition = 'opacity 0.28s ease';
-    content.style.opacity    = '0';
-  }
+    /* Show new page */
+    nextEl.style.display = 'block';
+    nextEl.style.opacity = '0';
+    nextEl.style.transition = 'none';
+    nextEl.classList.add('active');
 
-  try {
-    /* Fetch & parse target page (browser HTTP cache applies) */
-    let doc;
-    if (pageCache.has(pagePart)) {
-      doc = pageCache.get(pagePart);
-    } else {
-      const html = await fetch(pagePart).then(r => r.text());
-      doc = new DOMParser().parseFromString(html, 'text/html');
-      pageCache.set(pagePart, doc);
-    }
+    currentPage = pageId;
 
-    /* Wait for fade-out */
-    await new Promise(r => setTimeout(r, 300));
+    window.scrollTo(0, 0);
 
-    /* Swap page-specific <style> */
-    document.querySelector('[data-page-style]')?.remove();
-    const headStyle = doc.querySelector('head > style');
-    if (headStyle) {
-      const s = document.createElement('style');
-      s.dataset.pageStyle = '';
-      s.textContent = headStyle.textContent;
-      document.head.appendChild(s);
-    }
+    updateNavActive(pageId);
 
-    /* Swap #page-content */
-    const newContent = doc.getElementById('page-content');
-    if (newContent && content) {
-      content.replaceWith(newContent.cloneNode(true));
-    }
-
-    /* Update <title> */
-    if (doc.title) document.title = doc.title;
-
-    /* History */
-    if (pushState) history.pushState({ url }, '', url);
-
-    /* Nav active */
-    updateNavActive(url);
-
-    /* Close mobile menu if open */
+    /* Close mobile menu */
     document.getElementById('hamburger')?.classList.remove('open');
     document.getElementById('mobileMenu')?.classList.remove('open');
     document.body.style.overflow = '';
 
-    /* Scroll */
-    window.scrollTo(0, 0);
+    /* Push state */
+    if (pushState) {
+      const url = pageId === 'home' ? 'index.html' : pageId + '.html';
+      history.pushState({ page: pageId }, '', url);
+    }
 
-    /* Re-execute page-specific inline scripts (e.g., lightbox, filters) */
-    doc.querySelectorAll('body > script:not([src])').forEach(s => {
-      try { (new Function(s.textContent))(); } catch (_) {}
-    });
-
-    /* Re-init shared behaviour on new DOM */
+    /* Re-init shared behaviour */
     initScrollAnimations();
     initCounters();
     initHeroLines();
     applyLang(currentLang);
 
-    /* Scroll to anchor if any */
-    if (anchorPart) {
-      setTimeout(() => document.getElementById(anchorPart)?.scrollIntoView({ behavior: 'smooth' }), 120);
+    /* Photography-specific init */
+    if (pageId === 'photography' && typeof initPhotographyPage === 'function') {
+      initPhotographyPage();
     }
 
-    /* Fade in new content */
-    const fresh = document.getElementById('page-content');
-    if (fresh) {
-      fresh.style.opacity    = '0';
-      fresh.style.transition = 'none';
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        fresh.style.transition = 'opacity 0.45s ease';
-        fresh.style.opacity    = '1';
-      }));
-    }
+    /* Fade in new page */
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      nextEl.style.transition = 'opacity 0.45s ease';
+      nextEl.style.opacity = '1';
+    }));
 
-  } catch (err) {
-    /* Fallback: normal navigation */
-    window.location.href = url;
-  }
+  }, currentEl ? 250 : 0);
 }
 
 /* ── Router init ── */
 function initRouter() {
-  /* Mark the current page's inline <style> so the router can swap it */
-  const existingStyle = document.querySelector('head > style');
-  if (existingStyle) existingStyle.dataset.pageStyle = '';
+  /* Determine initial page from URL */
+  const hash = location.hash.slice(1);
+  const file = location.pathname.split('/').pop() || 'index.html';
+
+  /* Handle hash redirects from stub pages (acting.html → index.html#acting) */
+  if (hash === 'acting' || hash === 'photography') {
+    currentPage = hash;
+    history.replaceState({ page: hash }, '', hash + '.html');
+  } else {
+    currentPage = PAGE_MAP[file] || 'home';
+  }
+
+  /* Hide non-active pages */
+  document.querySelectorAll('.site-page').forEach(p => {
+    const pid = p.id.replace('page-', '');
+    if (pid !== currentPage) {
+      p.style.display = 'none';
+    } else {
+      p.classList.add('active');
+    }
+  });
+
+  updateNavActive(currentPage);
 
   /* Initial page reveal */
   const overlay = document.getElementById('page-transition');
   if (overlay) {
     requestAnimationFrame(() => requestAnimationFrame(() => {
       overlay.classList.add('pt-hidden');
-      const content = document.getElementById('page-content');
-      if (content) setTimeout(() => content.classList.add('content-visible'), 200);
+      const activePage = document.getElementById('page-' + currentPage);
+      if (activePage) {
+        activePage.style.opacity = '0';
+        setTimeout(() => {
+          activePage.style.transition = 'opacity 0.5s ease';
+          activePage.style.opacity = '1';
+        }, 200);
+      }
     }));
   }
 
   /* Record initial history entry */
-  history.replaceState({ url: window.location.href }, '', window.location.href);
+  history.replaceState({ page: currentPage }, '', location.href);
 
   /* Intercept ALL internal link clicks via delegation */
   document.addEventListener('click', e => {
@@ -352,17 +348,43 @@ function initRouter() {
       || href.includes('://')
     ) return;
 
-    /* Pure hash link on same page → let browser scroll */
-    if (href.startsWith('#')) return;
+    /* Pure hash → scroll within current page */
+    if (href.startsWith('#')) {
+      const target = document.getElementById(href.slice(1));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+      return;
+    }
+
+    const [filePart, anchorPart] = href.split('#');
+    const fileName = (filePart.split('/').pop()) || 'index.html';
+    const targetPage = PAGE_MAP[fileName] || 'home';
 
     e.preventDefault();
-    spaNavigate(href);
+
+    if (targetPage === currentPage) {
+      if (anchorPart) {
+        document.getElementById(anchorPart)?.scrollIntoView({ behavior: 'smooth' });
+      }
+      return;
+    }
+
+    showPage(targetPage);
+
+    if (anchorPart) {
+      setTimeout(() => document.getElementById(anchorPart)?.scrollIntoView({ behavior: 'smooth' }), 650);
+    }
   });
 
   /* Browser back / forward */
   window.addEventListener('popstate', e => {
-    if (e.state?.url) spaNavigate(e.state.url, false);
+    const page = e.state?.page || PAGE_MAP[location.pathname.split('/').pop()] || 'home';
+    showPage(page, false);
   });
+
+  /* Photography init if starting on that page */
+  if (currentPage === 'photography' && typeof initPhotographyPage === 'function') {
+    initPhotographyPage();
+  }
 }
 
 /* ── DOMContentLoaded ── */
@@ -380,5 +402,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroLines();
   initCursorGlow();
   initRouter();
-  updateNavActive(window.location.href);
+  updateNavActive(currentPage);
 });
