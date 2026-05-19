@@ -301,7 +301,10 @@ function initRouter() {
   /* Handle hash redirects from stub pages (acting.html → index.html#acting) */
   if (hash === 'acting' || hash === 'photography') {
     currentPage = hash;
-    history.replaceState({ page: hash }, '', hash + '.html');
+    /* Keep URL on index.html with a hash so local file reloads don't try to
+       navigate to a separate stub page (which may not exist locally).
+       Use same pattern as `showPage` pushState. */
+    history.replaceState({ page: hash }, '', 'index.html#' + hash);
   } else {
     currentPage = PAGE_MAP[file] || 'home';
   }
