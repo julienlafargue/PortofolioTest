@@ -314,7 +314,9 @@ function initRouter() {
     const pid = p.id.replace('page-', '');
     if (pid !== currentPage) {
       p.style.display = 'none';
+      p.classList.remove('active');
     } else {
+      p.style.display = 'block';
       p.classList.add('active');
     }
   });
