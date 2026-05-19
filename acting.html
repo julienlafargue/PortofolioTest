@@ -208,37 +208,57 @@ href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 
 </head>
 <body>
 
+  <div id="page-transition"></div>
+  <div id="scroll-progress"></div>
+
   <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html#about" class="ml">About</a>
-    <a href="acting.html"      class="ml">Acting</a>
-    <a href="photography.html" class="ml">Photography</a>
-    <a href="index.html#contact" class="ml">Contact</a>
+    <a href="index.html#about" class="ml" data-en="About"       data-fr="À propos">About</a>
+    <a href="acting.html"      class="ml" data-en="Acting"      data-fr="Jeu d'actrice">Acting</a>
+    <a href="photography.html" class="ml" data-en="Photography" data-fr="Photographie">Photography</a>
+    <a href="index.html#contact" class="ml" data-en="Contact"   data-fr="Contact">Contact</a>
+    <div class="mobile-lang">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <span class="lang-sep">|</span>
+      <button class="lang-btn" data-lang="fr">FR</button>
+    </div>
   </div>
 
   <nav>
-    <a href="index.html" class="logo">Tia‑Lana</a>
+    <a href="index.html" class="logo">
+      <span class="logo-first">Tia-Lana</span>
+      <span class="logo-last">Chinapyel</span>
+    </a>
     <div class="nav-links">
-      <a href="index.html#about">About</a>
-      <a href="acting.html" class="active">Acting</a>
-      <a href="photography.html">Photography</a>
-      <a href="index.html#contact">Contact</a>
+      <a href="index.html#about"   data-en="About"       data-fr="À propos">About</a>
+      <a href="acting.html" class="active" data-en="Acting" data-fr="Jeu d'actrice">Acting</a>
+      <a href="photography.html"   data-en="Photography" data-fr="Photographie">Photography</a>
+      <a href="index.html#contact" data-en="Contact"     data-fr="Contact">Contact</a>
     </div>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <span class="lang-sep">|</span>
+        <button class="lang-btn" data-lang="fr">FR</button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
+
+  <div id="page-content">
 
   <!-- HERO -->
   <section class="page-hero">
     <div class="page-hero-left">
-      <span class="eyebrow">Actress · Stage &amp; Screen</span>
-      <h1>Tia‑<br><em>Lana</em><br>Chinapyel</h1>
-      <p>British actress based in Paris. Theatre, television, film and voiceover — storytelling in every form.</p>
-      <div class="hero-stats">
-        <div class="hero-stat"><h4>BBC · ITV</h4><p>Television</p></div>
-        <div class="hero-stat"><h4>NT</h4><p>National<br>Theatre</p></div>
-        <div class="hero-stat"><h4>16–22</h4><p>Playing<br>Age</p></div>
-        <div class="hero-stat"><h4>RP · GA</h4><p>Accents</p></div>
+      <span class="eyebrow hero-line" data-en="Actress · Stage &amp; Screen" data-fr="Actrice · Scène &amp; Écran">Actress · Stage &amp; Screen</span>
+      <h1 class="hero-line">Tia‑<br><em>Lana</em><br>Chinapyel</h1>
+      <p class="hero-line" data-en="British actress based in Paris. Theatre, television, film and voiceover — storytelling in every form." data-fr="Actrice britannique basée à Paris. Théâtre, télévision, cinéma et voix off — narration sous toutes ses formes.">British actress based in Paris. Theatre, television, film and voiceover — storytelling in every form.</p>
+      <div class="hero-stats stagger hero-line">
+        <div class="hero-stat fade-up"><h4>BBC · ITV</h4><p data-en="Television" data-fr="Télévision">Television</p></div>
+        <div class="hero-stat fade-up"><h4>NT</h4><p data-en="National Theatre" data-fr="National Theatre">National<br>Theatre</p></div>
+        <div class="hero-stat fade-up"><h4>16–22</h4><p data-en="Playing Age" data-fr="Âge de jeu">Playing<br>Age</p></div>
+        <div class="hero-stat fade-up"><h4>RP · GA</h4><p data-en="Accents" data-fr="Accents">Accents</p></div>
       </div>
     </div>
     <div class="page-hero-right">
@@ -260,28 +280,40 @@ href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 
   <!-- SKILLS -->
   <section id="skills">
     <div class="fade-up" style="margin-bottom:50px;">
-      <p class="sec-label">Abilities</p>
-      <h2 class="sec-title">Skills &amp; <em>Abilities</em></h2>
+      <p class="sec-label draw-line" data-en="Abilities" data-fr="Aptitudes">Abilities</p>
+      <h2 class="sec-title" data-i18n-html="acting.skills">Skills &amp; <em>Abilities</em></h2>
     </div>
-    <div class="skills-grid fade-up">
-      <div class="skill-card"><div class="skill-num">01</div><h3>Acting</h3><p>Stage & screen — trained at LAMDA and Cours Florent, Paris.</p></div>
-      <div class="skill-card"><div class="skill-num">02</div><h3>Voiceover</h3><p>Commercial and narrative voiceover. BBC Radio 4 credit.</p></div>
-      <div class="skill-card"><div class="skill-num">03</div><h3>Singing</h3><p>Performed at The O2 Arena. Solo and ensemble vocalist.</p></div>
-      <div class="skill-card"><div class="skill-num">04</div><h3>Guitar</h3><p>Self-accompanied musician for musical performance work.</p></div>
-      <div class="skill-card"><div class="skill-num">05</div><h3>Presenting</h3><p>Camera-confident. Lead interviewer experience on radio.</p></div>
-      <div class="skill-card"><div class="skill-num">06</div><h3>Accents</h3><p>RP and General American. English native. French (learning).</p></div>
-      <div class="skill-card"><div class="skill-num">07</div><h3>Movement</h3><p>Physical performance across opera, theatre and screen.</p></div>
-      <div class="skill-card"><div class="skill-num">08</div><h3>Radio Drama</h3><p>BBC Radio 4. Comfortable in mic-led performance contexts.</p></div>
+    <div class="skills-grid stagger">
+      <div class="skill-card fade-up"><div class="skill-num">01</div><h3 data-en="Acting" data-fr="Jeu d'actrice">Acting</h3><p data-en="Stage & screen — trained at LAMDA and Cours Florent, Paris." data-fr="Scène & écran — formée au LAMDA et au Cours Florent, Paris.">Stage &amp; screen — trained at LAMDA and Cours Florent, Paris.</p></div>
+      <div class="skill-card fade-up"><div class="skill-num">02</div><h3 data-en="Voiceover" data-fr="Voix off">Voiceover</h3><p data-en="Commercial and narrative voiceover. BBC Radio 4 credit." data-fr="Voix off commerciale et narrative. Crédit BBC Radio 4.">Commercial and narrative voiceover. BBC Radio 4 credit.</p></div>
+      <div class="skill-card fade-up"><div class="skill-num">03</div><h3 data-en="Singing" data-fr="Chant">Singing</h3><p data-en="Performed at The O2 Arena. Solo and ensemble vocalist." data-fr="Scène au The O2 Arena. Vocaliste solo et en ensemble.">Performed at The O2 Arena. Solo and ensemble vocalist.</p></div>
+      <div class="skill-card fade-up"><div class="skill-num">04</div><h3 data-en="Guitar" data-fr="Guitare">Guitar</h3><p data-en="Self-accompanied musician for musical performance work." data-fr="Musicienne auto-accompagnée pour le travail de performance musicale.">Self-accompanied musician for musical performance work.</p></div>
+      <div class="skill-card fade-up"><div class="skill-num">05</div><h3 data-en="Presenting" data-fr="Présentation">Presenting</h3><p data-en="Camera-confident. Lead interviewer experience on radio." data-fr="À l'aise devant la caméra. Expérience d'intervieweuse principale à la radio.">Camera-confident. Lead interviewer experience on radio.</p></div>
+      <div class="skill-card fade-up"><div class="skill-num">06</div><h3 data-en="Accents" data-fr="Accents">Accents</h3><p data-en="RP and General American. English native. French (learning)." data-fr="RP et Américain General. Anglophone native. Français (en apprentissage).">RP and General American. English native. French (learning).</p></div>
+      <div class="skill-card fade-up"><div class="skill-num">07</div><h3 data-en="Movement" data-fr="Mouvement">Movement</h3><p data-en="Physical performance across opera, theatre and screen." data-fr="Performance physique à travers l'opéra, le théâtre et l'écran.">Physical performance across opera, theatre and screen.</p></div>
+      <div class="skill-card fade-up"><div class="skill-num">08</div><h3 data-en="Radio Drama" data-fr="Dramatique radio">Radio Drama</h3><p data-en="BBC Radio 4. Comfortable in mic-led performance contexts." data-fr="BBC Radio 4. À l'aise dans les contextes de performance au micro.">BBC Radio 4. Comfortable in mic-led performance contexts.</p></div>
     </div>
   </section>
+
+  <!-- connector: skills → credits -->
+  <div class="section-connector fade-up" style="background:linear-gradient(to bottom,var(--cream),var(--soft-white))">
+    <div class="connector-inner">
+      <div class="connector-line"></div>
+      <div class="connector-content">
+        <span class="connector-next" data-en="Up next" data-fr="Ensuite">Up next</span>
+        <span class="connector-title" data-en="Professional Credits" data-fr="Crédits professionnels">Professional Credits</span>
+      </div>
+      <div class="connector-line"></div>
+    </div>
+  </div>
 
   <!-- CREDITS -->
   <section id="credits">
     <div class="fade-up" style="margin-bottom:50px;">
-      <p class="sec-label">Professional Credits</p>
-      <h2 class="sec-title">Stage &amp; <em>Screen</em></h2>
+      <p class="sec-label draw-line" data-en="Professional Credits" data-fr="Crédits professionnels">Professional Credits</p>
+      <h2 class="sec-title" data-i18n-html="acting.credits">Stage &amp; <em>Screen</em></h2>
     </div>
-    <div class="credits-layout fade-up">
+    <div class="credits-layout slide-left">
 
       <div>
         <div class="credits-group">
@@ -355,27 +387,39 @@ href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 
     </div>
   </section>
 
+  <!-- connector: credits → training -->
+  <div class="section-connector fade-up" style="background:linear-gradient(to bottom,var(--soft-white),var(--cream))">
+    <div class="connector-inner">
+      <div class="connector-line"></div>
+      <div class="connector-content">
+        <span class="connector-next" data-en="Up next" data-fr="Ensuite">Up next</span>
+        <span class="connector-title" data-en="My Training" data-fr="Ma Formation">My Training</span>
+      </div>
+      <div class="connector-line"></div>
+    </div>
+  </div>
+
   <!-- TRAINING -->
   <section id="training">
     <div class="fade-up" style="margin-bottom:50px;">
-      <p class="sec-label">Formation</p>
-      <h2 class="sec-title">My <em>Training</em></h2>
+      <p class="sec-label draw-line" data-en="Training" data-fr="Formation">Formation</p>
+      <h2 class="sec-title" data-i18n-html="acting.training">My <em>Training</em></h2>
     </div>
-    <div class="training-grid fade-up">
-      <div class="training-card">
-        <div class="training-date">Septembre 2024 — Present</div>
+    <div class="training-grid stagger">
+      <div class="training-card scale-in">
+        <div class="training-date" data-en="September 2024 — Present" data-fr="Septembre 2024 — Présent">Septembre 2024 — Present</div>
         <h3>Cours Florent</h3>
         <p class="place">Paris, France</p>
-        <ul><li>Acting in English — Stage & Screen</li></ul>
+        <ul><li data-en="Acting in English — Stage & Screen" data-fr="Jeu d'actrice en anglais — Scène & Écran">Acting in English — Stage &amp; Screen</li></ul>
       </div>
-      <div class="training-card">
+      <div class="training-card scale-in">
         <div class="training-date">2012 — 2019</div>
         <h3>London Academy of Music and Dramatic Art</h3>
         <p class="place">London, UK</p>
         <ul>
-          <li>Acting Solo — Grades 1–6, all Distinction</li>
-          <li>Bronze Medal, Grade 6</li>
-          <li>Verse & Prose — Grade 2, Distinction</li>
+          <li data-en="Acting Solo — Grades 1–6, all Distinction" data-fr="Jeu solo — Niveaux 1–6, tous Mention Très Bien">Acting Solo — Grades 1–6, all Distinction</li>
+          <li data-en="Bronze Medal, Grade 6" data-fr="Médaille de Bronze, Niveau 6">Bronze Medal, Grade 6</li>
+          <li data-en="Verse & Prose — Grade 2, Distinction" data-fr="Vers & Prose — Niveau 2, Mention Très Bien">Verse &amp; Prose — Grade 2, Distinction</li>
         </ul>
       </div>
     </div>
@@ -383,26 +427,28 @@ href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 
 
   <!-- CONTACT -->
   <section id="contact" class="contact-section">
-    <p class="sec-label">Work Together</p>
-    <h2 class="sec-title">Let's create<br>something <em>memorable</em></h2>
-    <p class="contact-sub">Available for theatre, screen, voiceover and commercial projects.</p>
-    <div class="contact-row">
+    <p class="sec-label" data-en="Work Together" data-fr="Travaillons ensemble">Work Together</p>
+    <h2 class="sec-title fade-up" data-i18n-html="acting.contact">Let's create<br>something <em>memorable</em></h2>
+    <p class="contact-sub fade-up" data-en="Available for theatre, screen, voiceover and commercial projects." data-fr="Disponible pour le théâtre, l'écran, la voix off et les projets commerciaux.">Available for theatre, screen, voiceover and commercial projects.</p>
+    <div class="contact-row fade-up">
       <div class="contact-item">
-        <span class="contact-item-label">Email</span>
+        <span class="contact-item-label" data-en="Email" data-fr="E-mail">Email</span>
         <a href="mailto:tiachinapyel@gmail.com">tiachinapyel@gmail.com</a>
       </div>
       <div class="contact-divider"></div>
       <div class="contact-item">
-        <span class="contact-item-label">Location</span>
+        <span class="contact-item-label" data-en="Location" data-fr="Localisation">Location</span>
         <a>Paris, France</a>
       </div>
     </div>
-    <a href="mailto:tiachinapyel@gmail.com" class="btn-ghost">Get In Touch <span>→</span></a>
+    <a href="mailto:tiachinapyel@gmail.com" class="btn-ghost fade-up"><span data-en="Get In Touch" data-fr="Me contacter">Get In Touch</span> <span>→</span></a>
   </section>
+
+  </div><!-- #page-content -->
 
   <footer>
     <span class="footer-logo">Tia-Lana Chinapyel</span>
-    <p>© 2026 — All rights reserved</p>
+    <p data-en="© 2026 — All rights reserved" data-fr="© 2026 — Tous droits réservés">© 2026 — All rights reserved</p>
   </footer>
 
   <script src="shared.js"></script>
