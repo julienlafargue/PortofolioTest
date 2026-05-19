@@ -103,7 +103,7 @@ nav {
   color: var(--rose);
   transition: transform .3s, opacity .3s;
   animation: heartbeat 3.5s ease-in-out infinite;
-  vertical-align: middle;
+  vertical-align: middle; position: relative; top: 3px;
 }
 .logo-heart svg { width: 12px; height: 12px; display: block; transform: skewX(-12deg); }
 .logo-heart:hover { transform: scale(1.25); opacity: .8; }
