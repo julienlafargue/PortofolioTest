@@ -369,6 +369,8 @@ function initRouter() {
     if (targetPage === currentPage) {
       if (anchorPart) {
         document.getElementById(anchorPart)?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
       return;
     }
