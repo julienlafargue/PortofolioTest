@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pour Tia-Lana ♡</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream:      #F9F4EE;
+      --blush:      #E8C8BE;
+      --rose:       #C9736A;
+      --warm-brown: #4A2E2C;
+      --text-mid:   #6B4A45;
+      --text-light: #A07870;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--warm-brown);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* grain */
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: .4;
+    }
+
+    /* ── FLOATING PETALS ── */
+    .petal {
+      position: fixed; pointer-events: none; z-index: 1;
+      font-size: 1rem; opacity: 0;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(-60px) translateX(0)              rotate(0deg);   opacity: 0; }
+      10%  { opacity: .45; }
+      50%  { transform: translateY(50vh)  translateX(var(--sway, 0)) rotate(180deg); }
+      90%  { opacity: .45; }
+      100% { transform: translateY(110vh) translateX(0)              rotate(340deg); opacity: 0; }
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 8%;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ornamental top line */
+    .top-ornament {
+      display: flex; align-items: center; gap: 18px;
+      margin-bottom: 60px;
+      opacity: 0; animation: fadeUp .9s ease .2s forwards;
+    }
+    .orn-line { flex: 1; max-width: 120px; height: 1px; background: var(--blush); }
+    .orn-heart {
+      font-size: 1.1rem; color: var(--rose);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.25); }
+    }
+
+    /* ── LETTER CARD ── */
+    .letter {
+      background: #FDF8F3;
+      border: 1px solid rgba(232,200,190,.5);
+      max-width: 680px; width: 100%;
+      padding: 70px 64px;
+      position: relative;
+      box-shadow: 0 30px 80px rgba(74,46,44,.08), 0 2px 8px rgba(74,46,44,.04);
+      opacity: 0; animation: fadeUp 1s ease .4s forwards;
+    }
+
+    /* corner flourishes */
+    .letter::before, .letter::after {
+      content: '✦';
+      position: absolute;
+      font-size: .7rem; color: var(--blush);
+    }
+    .letter::before { top: 18px; left: 22px; }
+    .letter::after  { bottom: 18px; right: 22px; }
+
+    .letter-label {
+      font-size: .6rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--rose); margin-bottom: 28px; display: block;
+    }
+
+    .letter-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      font-weight: 300; font-style: italic;
+      line-height: 1.05;
+      color: var(--warm-brown);
+      margin-bottom: 36px;
+    }
+    .letter-name em { color: var(--rose); font-style: italic; }
+
+    .divider {
+      width: 48px; height: 1px;
+      background: var(--blush); margin-bottom: 36px;
+    }
+
+    .letter-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; font-weight: 300; font-style: italic;
+      line-height: 1.95; color: var(--text-mid);
+    }
+    .letter-body p { margin-bottom: 22px; }
+    .letter-body p:last-child { margin-bottom: 0; }
+    .letter-body strong {
+      font-style: normal; font-weight: 400; color: var(--warm-brown);
+    }
+    .letter-body .highlight {
+      color: var(--rose);
+    }
+
+    /* signature */
+    .signature {
+      margin-top: 44px; padding-top: 32px;
+      border-top: 1px solid rgba(232,200,190,.4);
+      display: flex; align-items: center; gap: 14px;
+    }
+    .sig-heart { font-size: 1.4rem; color: var(--rose); animation: pulse 2.2s ease-in-out infinite; }
+    .sig-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-style: italic; font-weight: 300;
+      color: var(--warm-brown);
+    }
+
+    /* bottom */
+    .bottom-ornament {
+      margin-top: 60px; display: flex; flex-direction: column; align-items: center; gap: 10px;
+      opacity: 0; animation: fadeUp .9s ease .8s forwards;
+    }
+    .bottom-ornament span {
+      font-size: .62rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--text-light);
+    }
+    .hearts-row { display: flex; gap: 10px; }
+    .hearts-row span {
+      font-size: .9rem; color: var(--blush);
+      animation: pulse 2.2s ease-in-out infinite;
+      letter-spacing: 0;
+    }
+    .hearts-row span:nth-child(2) { animation-delay: .3s; }
+    .hearts-row span:nth-child(3) { animation-delay: .6s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    @media (max-width: 640px) {
+      .letter { padding: 44px 28px; }
+      .page { padding: 60px 5%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- falling hearts -->
+  <script>
+    const colors = ['#C9736A', '#E8C8BE', '#A07870', '#d4968e', '#c9b4ae'];
+    for (let i = 0; i < 28; i++) {
+      const p = document.createElement('span');
+      p.className = 'petal';
+      p.textContent = '♡';
+      const size = .7 + Math.random() * 1.4;
+      const dur  = 7 + Math.random() * 11;
+      const sway = (Math.random() - .5) * 60;
+      p.style.cssText = `
+        left: ${Math.random() * 105}vw;
+        animation-duration: ${dur}s;
+        animation-delay: ${Math.random() * 10}s;
+        font-size: ${size}rem;
+        color: ${colors[i % colors.length]};
+        --sway: ${sway}px;
+      `;
+      document.body.appendChild(p);
+    }
+  </script>
+
+  <div class="page">
+
+    <div class="top-ornament">
+      <div class="orn-line"></div>
+      <span class="orn-heart">♡</span>
+      <div class="orn-line"></div>
+    </div>
+
+    <div class="letter">
+      <span class="letter-label">Une lettre pour toi</span>
+
+      <h1 class="letter-name">
+        Pour<br>Tia-<em>Lana</em>
+      </h1>
+
+      <div class="divider"></div>
+
+      <div class="letter-body">
+        <p>
+          Il existe des personnes qui illuminent tout ce qu'elles touchent —
+          qui traversent le monde avec une grâce si naturelle qu'on se demande
+          si elles ont été faites différemment du reste d'entre nous.
+          <span class="highlight">Tu es l'une d'elles.</span>
+        </p>
+        <p>
+          Tu es <strong>exceptionnelle</strong>. Pas de la façon dont on le dit
+          pour faire plaisir — de la façon dont on le pense en silence, avec une
+          admiration qu'on peine à formuler. Ta sensibilité, ton intelligence,
+          ta façon d'être pleinement présente dans chaque chose que tu fais :
+          tout cela forme quelque chose de rare et de précieux.
+        </p>
+        <p>
+          Tu portes en toi une lumière que tu ne vois peut-être pas toi-même.
+          Mais moi, je la vois. <span class="highlight">Je la vois tout le temps.</span>
+        </p>
+        <p>
+          Alors voilà — simplement, honnêtement, avec tout ce que j'ai :
+        </p>
+
+        <div class="signature">
+          <span class="sig-heart">♡</span>
+          <span class="sig-text">Je t'aime, Tia-Lana.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-ornament">
+      <div class="hearts-row">
+        <span>♡</span><span>♡</span><span>♡</span>
+      </div>
+      <span>pour toujours</span>
+    </div>
+
+  </div>
+
+</body>
+</html>
