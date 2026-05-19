@@ -217,10 +217,13 @@ const PAGE_MAP = {
 function updateNavActive(pageId) {
   document.querySelectorAll('.nav-links a, .mobile-menu a.ml').forEach(link => {
     const href = link.getAttribute('href') || '';
-    const [filePart] = href.split('#');
+    const [filePart, anchorPart] = href.split('#');
     const fileName = (filePart.split('/').pop()) || 'index.html';
     const linkPage = PAGE_MAP[fileName] || 'home';
-    link.classList.toggle('active', linkPage === pageId);
+    /* Section-anchor links (about, contact) never get the active class —
+       only top-level page links (acting, photography) do */
+    const isSectionLink = linkPage === 'home' && !!anchorPart;
+    link.classList.toggle('active', !isSectionLink && linkPage === pageId && pageId !== 'home');
   });
 }
 
@@ -266,9 +269,9 @@ function showPage(pageId, pushState = true) {
     document.getElementById('mobileMenu')?.classList.remove('open');
     document.body.style.overflow = '';
 
-    /* Push state */
+    /* Push state — use hash-based URLs so GitHub Pages never reloads */
     if (pushState) {
-      const url = pageId === 'home' ? 'index.html' : pageId + '.html';
+      const url = pageId === 'home' ? 'index.html' : 'index.html#' + pageId;
       history.pushState({ page: pageId }, '', url);
     }
 

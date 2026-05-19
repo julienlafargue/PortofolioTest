@@ -127,9 +127,17 @@ nav {
 .nav-links a {
   font-size:.72rem; letter-spacing:2px; text-transform:uppercase;
   color:var(--text-mid); transition:color .3s;
+  position:relative;
 }
-.nav-links a:hover,
+.nav-links a::after {
+  content:''; position:absolute; bottom:-3px; left:0;
+  width:0; height:1px; background:var(--rose);
+  transition:width .3s;
+}
+.nav-links a:hover { color:var(--rose); }
+.nav-links a:hover::after { width:100%; }
 .nav-links a.active { color:var(--rose); }
+.nav-links a.active::after { width:0; }
 
 /* hamburger */
 .hamburger {
