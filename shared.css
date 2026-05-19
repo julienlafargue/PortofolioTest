@@ -88,6 +88,9 @@ nav {
   text-decoration:none;
   transition:opacity .3s;
 }
+.logo span {
+  color:var(--rose);;
+}
 .logo:hover { opacity:.7; }
 
 /* ── LANG TOGGLE ── */
