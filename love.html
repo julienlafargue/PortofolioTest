@@ -175,6 +175,16 @@
 </head>
 <body>
 
+  <!-- entry overlay (matches the expanding rose circle from index.html) -->
+  <div id="entry-overlay" style="position:fixed;inset:0;background:#C9736A;z-index:9000;pointer-events:none;transition:opacity .55s ease .1s"></div>
+  <script>
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const o = document.getElementById('entry-overlay');
+      o.style.opacity = '0';
+      setTimeout(() => o.remove(), 700);
+    }));
+  </script>
+
   <!-- falling hearts -->
   <script>
     const colors = ['#C9736A', '#E8C8BE', '#A07870', '#d4968e', '#c9b4ae'];
