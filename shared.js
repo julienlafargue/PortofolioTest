@@ -71,12 +71,9 @@ function buildObservers() {
 
   scrollObs = new IntersectionObserver(entries => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        scrollObs.unobserve(e.target);
-      }
+      e.target.classList.toggle('visible', e.isIntersecting);
     });
-  }, { threshold: .07, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: .07, rootMargin: '0px 0px -60px 0px' });
 
   counterObs = new IntersectionObserver(entries => {
     entries.forEach(e => {
@@ -108,7 +105,7 @@ function animateCounter(el) {
   const raw = el.textContent.trim();
   const num = parseFloat(raw);
   if (isNaN(num) || num === 0) return;
-  const suffix   = raw.replace(/[\d.]/g, '');
+  const suffix   = raw.replace(/^[\d.]+/, '');
   const duration = 1400;
   let t0 = null;
   const step = ts => {

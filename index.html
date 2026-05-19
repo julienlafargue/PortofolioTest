@@ -46,9 +46,8 @@ href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 
     .hero-right { position:relative; overflow:hidden; }
     .hero-right img {
       width:100%; height:100%; object-fit:cover; object-position:top center;
-      filter:sepia(8%) saturate(88%); transition:transform 8s ease;
+      filter:sepia(8%) saturate(88%);
     }
-    .hero-right:hover img { transform:scale(1.04); }
     .hero-tag {
       position:absolute; bottom:36px; left:28px;
       font-family:'Cormorant Garamond',serif;
@@ -181,9 +180,8 @@ href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 
     .page-hero-right img {
       width: 100%; height: 100%;
       object-fit: cover; object-position: top center;
-      filter: sepia(8%) saturate(88%); transition: transform 8s ease;
+      filter: sepia(8%) saturate(88%);
     }
-    .page-hero-right:hover img { transform: scale(1.04); }
 
     /* ════════════════════════════════════
        ACTING PAGE
@@ -275,8 +273,33 @@ href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 
       break-inside: avoid; margin-bottom: 14px;
       position: relative; overflow: hidden; cursor: pointer; display: block;
     }
-    .g-item img { width: 100%; display: block; filter: sepia(5%) saturate(88%); transition: transform .7s ease, filter .5s; }
-    .g-item:hover img { transform: scale(1.04); filter: sepia(0%) saturate(100%); }
+    @keyframes imgDrift1 {
+      0%,100% { transform:scale(1.07) translate(0,0); }
+      50%     { transform:scale(1.1) translate(-1.2%,-0.8%); }
+    }
+    @keyframes imgDrift2 {
+      0%,100% { transform:scale(1.07) translate(0,0); }
+      50%     { transform:scale(1.1) translate(1.2%,0.6%); }
+    }
+    @keyframes imgDrift3 {
+      0%,100% { transform:scale(1.06) translate(0,0); }
+      50%     { transform:scale(1.1) translate(-0.5%,1.1%); }
+    }
+    .g-item img {
+      width: 100%; display: block;
+      filter: sepia(5%) saturate(88%);
+      transition: filter .5s;
+      animation: imgDrift1 14s ease-in-out infinite;
+      will-change: transform;
+    }
+    .g-item:nth-child(3n+2) img { animation-name: imgDrift2; animation-duration: 11s; }
+    .g-item:nth-child(3n) img   { animation-name: imgDrift3; animation-duration: 18s; }
+    .g-item:hover img {
+      animation: none;
+      transform: scale(1.07);
+      filter: sepia(0%) saturate(100%);
+      transition: transform .6s ease, filter .5s;
+    }
     .g-overlay {
       position: absolute; inset: 0;
       background: linear-gradient(to top, rgba(58,24,22,.8) 0%, transparent 50%);
@@ -306,6 +329,58 @@ href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 
     .lb-caption h4 { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: var(--blush); font-weight: 300; }
     .lb-caption span { font-size: .62rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(232,200,190,.4); }
     .lb-counter { position: absolute; top: -48px; left: 0; font-size: .65rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(232,200,190,.4); }
+
+    /* ── GALLERY CATEGORY BADGE (always visible) ── */
+    .g-cat-badge {
+      position: absolute; top: 11px; left: 11px; z-index: 2;
+      padding: 3px 9px;
+      background: rgba(74,46,44,.72);
+      backdrop-filter: blur(8px);
+      font-size: .56rem; letter-spacing: 2.5px; text-transform: uppercase;
+      color: rgba(232,200,190,.9);
+      pointer-events: none;
+    }
+
+    /* ── FILTER BUTTON ICONS ── */
+    .filter-btn { display: inline-flex; align-items: center; gap: 6px; }
+    .f-icon {
+      width: 13px; height: 13px; flex-shrink: 0;
+      stroke: currentColor; fill: none;
+      stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    /* ── ACTING SKILL ICONS ── */
+    .skill-icon {
+      width: 22px; height: 22px; display: block;
+      stroke: var(--rose); fill: none;
+      stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+      margin-bottom: 12px;
+    }
+
+    /* ── CREDITS CATEGORY ICONS ── */
+    .credits-col-title { display: flex; align-items: center; gap: 9px; }
+    .cat-icon {
+      width: 15px; height: 15px; flex-shrink: 0;
+      stroke: var(--text-mid); fill: none;
+      stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+      opacity: .75;
+    }
+
+    /* ── FEATURED CREDITS (notable venues/channels) ── */
+    .credit-featured {
+      background: rgba(201,115,106,.05);
+      border-left: 2px solid var(--rose);
+      padding-left: 10px;
+      margin-left: -12px;
+    }
+    .credit-featured .credit-title { color: var(--warm-brown); font-weight: 600; }
+    .credit-badge {
+      display: inline-block; padding: 1px 6px;
+      background: var(--rose); color: white;
+      font-size: .55rem; letter-spacing: 1.5px; text-transform: uppercase;
+      font-family: 'DM Sans', sans-serif; font-weight: 500;
+      vertical-align: middle; margin-left: 6px;
+    }
 
     /* ════════════════════════════════════
        RESPONSIVE
@@ -588,14 +663,46 @@ href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 
         <h2 class="sec-title" data-i18n-html="acting.skills">Skills &amp; <em>Abilities</em></h2>
       </div>
       <div class="skills-grid stagger">
-        <div class="skill-card fade-up"><div class="skill-num">01</div><h3 data-en="Acting" data-fr="Jeu d'actrice">Acting</h3><p data-en="Stage & screen — trained at LAMDA and Cours Florent, Paris." data-fr="Scène & écran — formée au LAMDA et au Cours Florent, Paris.">Stage &amp; screen — trained at LAMDA and Cours Florent, Paris.</p></div>
-        <div class="skill-card fade-up"><div class="skill-num">02</div><h3 data-en="Voiceover" data-fr="Voix off">Voiceover</h3><p data-en="Commercial and narrative voiceover. BBC Radio 4 credit." data-fr="Voix off commerciale et narrative. Crédit BBC Radio 4.">Commercial and narrative voiceover. BBC Radio 4 credit.</p></div>
-        <div class="skill-card fade-up"><div class="skill-num">03</div><h3 data-en="Singing" data-fr="Chant">Singing</h3><p data-en="Performed at The O2 Arena. Solo and ensemble vocalist." data-fr="Scène au The O2 Arena. Vocaliste solo et en ensemble.">Performed at The O2 Arena. Solo and ensemble vocalist.</p></div>
-        <div class="skill-card fade-up"><div class="skill-num">04</div><h3 data-en="Guitar" data-fr="Guitare">Guitar</h3><p data-en="Self-accompanied musician for musical performance work." data-fr="Musicienne auto-accompagnée pour le travail de performance musicale.">Self-accompanied musician for musical performance work.</p></div>
-        <div class="skill-card fade-up"><div class="skill-num">05</div><h3 data-en="Presenting" data-fr="Présentation">Presenting</h3><p data-en="Camera-confident. Lead interviewer experience on radio." data-fr="À l'aise devant la caméra. Expérience d'intervieweuse principale à la radio.">Camera-confident. Lead interviewer experience on radio.</p></div>
-        <div class="skill-card fade-up"><div class="skill-num">06</div><h3 data-en="Accents" data-fr="Accents">Accents</h3><p data-en="RP and General American. English native. French (learning)." data-fr="RP et Américain General. Anglophone native. Français (en apprentissage).">RP and General American. English native. French (learning).</p></div>
-        <div class="skill-card fade-up"><div class="skill-num">07</div><h3 data-en="Movement" data-fr="Mouvement">Movement</h3><p data-en="Physical performance across opera, theatre and screen." data-fr="Performance physique à travers l'opéra, le théâtre et l'écran.">Physical performance across opera, theatre and screen.</p></div>
-        <div class="skill-card fade-up"><div class="skill-num">08</div><h3 data-en="Radio Drama" data-fr="Dramatique radio">Radio Drama</h3><p data-en="BBC Radio 4. Comfortable in mic-led performance contexts." data-fr="BBC Radio 4. À l'aise dans les contextes de performance au micro.">BBC Radio 4. Comfortable in mic-led performance contexts.</p></div>
+        <div class="skill-card fade-up">
+          <div class="skill-num">01</div>
+          <svg class="skill-icon" viewBox="0 0 24 24"><path d="M2 9c0-1 1-2 2-2h16c1 0 2 1 2 2v2c0 4.4-3.6 8-8 8h0c-4.4 0-8-3.6-8-8V9z"/><path d="M9 14.5s1 1.5 3 1.5 3-1.5 3-1.5"/><circle cx="9.5" cy="10.5" r=".7" fill="currentColor" stroke="none"/><circle cx="14.5" cy="10.5" r=".7" fill="currentColor" stroke="none"/></svg>
+          <h3 data-en="Acting" data-fr="Jeu d'actrice">Acting</h3><p data-en="Stage & screen — trained at LAMDA and Cours Florent, Paris." data-fr="Scène & écran — formée au LAMDA et au Cours Florent, Paris.">Stage &amp; screen — trained at LAMDA and Cours Florent, Paris.</p>
+        </div>
+        <div class="skill-card fade-up">
+          <div class="skill-num">02</div>
+          <svg class="skill-icon" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3M9 21h6"/></svg>
+          <h3 data-en="Voiceover" data-fr="Voix off">Voiceover</h3><p data-en="Commercial and narrative voiceover. BBC Radio 4 credit." data-fr="Voix off commerciale et narrative. Crédit BBC Radio 4.">Commercial and narrative voiceover. BBC Radio 4 credit.</p>
+        </div>
+        <div class="skill-card fade-up">
+          <div class="skill-num">03</div>
+          <svg class="skill-icon" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          <h3 data-en="Singing" data-fr="Chant">Singing</h3><p data-en="Performed at The O2 Arena. Solo and ensemble vocalist." data-fr="Scène au The O2 Arena. Vocaliste solo et en ensemble.">Performed at The O2 Arena. Solo and ensemble vocalist.</p>
+        </div>
+        <div class="skill-card fade-up">
+          <div class="skill-num">04</div>
+          <svg class="skill-icon" viewBox="0 0 24 24"><path d="M20 4l-6 6"/><path d="M3.5 20.5a2 2 0 002.8 0l4-4a4 4 0 005.4-5.9L11.5 15 9 12.5l4.5-4.5a4 4 0 00-5.9 5.4l-4 4a2 2 0 000 2.8 2 2 0 002.8 0z"/></svg>
+          <h3 data-en="Guitar" data-fr="Guitare">Guitar</h3><p data-en="Self-accompanied musician for musical performance work." data-fr="Musicienne auto-accompagnée pour le travail de performance musicale.">Self-accompanied musician for musical performance work.</p>
+        </div>
+        <div class="skill-card fade-up">
+          <div class="skill-num">05</div>
+          <svg class="skill-icon" viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          <h3 data-en="Presenting" data-fr="Présentation">Presenting</h3><p data-en="Camera-confident. Lead interviewer experience on radio." data-fr="À l'aise devant la caméra. Expérience d'intervieweuse principale à la radio.">Camera-confident. Lead interviewer experience on radio.</p>
+        </div>
+        <div class="skill-card fade-up">
+          <div class="skill-num">06</div>
+          <svg class="skill-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="13" y2="14"/></svg>
+          <h3 data-en="Accents" data-fr="Accents">Accents</h3><p data-en="RP and General American. English native. French (learning)." data-fr="RP et Américain General. Anglophone native. Français (en apprentissage).">RP and General American. English native. French (learning).</p>
+        </div>
+        <div class="skill-card fade-up">
+          <div class="skill-num">07</div>
+          <svg class="skill-icon" viewBox="0 0 24 24"><circle cx="12" cy="4" r="2"/><path d="M6 11l6-3 6 3M9 11l-2 9M15 11l2 9M9 15h6"/></svg>
+          <h3 data-en="Movement" data-fr="Mouvement">Movement</h3><p data-en="Physical performance across opera, theatre and screen." data-fr="Performance physique à travers l'opéra, le théâtre et l'écran.">Physical performance across opera, theatre and screen.</p>
+        </div>
+        <div class="skill-card fade-up">
+          <div class="skill-num">08</div>
+          <svg class="skill-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M9.5 9.5a4 4 0 000 5.66M14.5 9.5a4 4 0 010 5.66M7 7a8 8 0 000 11.31M17 7a8 8 0 010 11.31"/></svg>
+          <h3 data-en="Radio Drama" data-fr="Dramatique radio">Radio Drama</h3><p data-en="BBC Radio 4. Comfortable in mic-led performance contexts." data-fr="BBC Radio 4. À l'aise dans les contextes de performance au micro.">BBC Radio 4. Comfortable in mic-led performance contexts.</p>
+        </div>
       </div>
     </section>
 
@@ -618,32 +725,47 @@ href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 
       <div class="credits-layout slide-left">
         <div>
           <div class="credits-group">
-            <div class="credits-col-title">Theatre</div>
-            <div class="credit-item"><div><div class="credit-title">Oliver Twist</div><div class="credit-role">Oliver</div></div><div class="credit-where">Regent's Park<br>Open Air Theatre</div></div>
-            <div class="credit-item"><div><div class="credit-title">Behind The Beautiful Forevers</div><div class="credit-role">Noori</div></div><div class="credit-where">National Theatre</div></div>
+            <div class="credits-col-title">
+              <svg class="cat-icon" viewBox="0 0 24 24"><path d="M2 9c0-1 1-2 2-2h16c1 0 2 1 2 2v2c0 4.4-3.6 8-8 8h0c-4.4 0-8-3.6-8-8V9z"/><path d="M9 14.5s1 1.5 3 1.5 3-1.5 3-1.5"/><circle cx="9.5" cy="10.5" r=".6" fill="currentColor" stroke="none"/><circle cx="14.5" cy="10.5" r=".6" fill="currentColor" stroke="none"/></svg>
+              Theatre
+            </div>
+            <div class="credit-item credit-featured"><div><div class="credit-title">Oliver Twist</div><div class="credit-role">Oliver</div></div><div class="credit-where">Regent's Park<br>Open Air Theatre</div></div>
+            <div class="credit-item credit-featured"><div><div class="credit-title">Behind The Beautiful Forevers</div><div class="credit-role">Noori</div></div><div class="credit-where">National Theatre</div></div>
             <div class="credit-item"><div><div class="credit-title">Aida</div><div class="credit-role">Slave Child</div></div><div class="credit-where">Brighton Dome</div></div>
             <div class="credit-item"><div><div class="credit-title">Carmen</div><div class="credit-role">Street Urchin</div></div><div class="credit-where">Devonshire Park</div></div>
             <div class="credit-item"><div><div class="credit-title">Nabucco</div><div class="credit-role">Poor Child</div></div><div class="credit-where">Ellen Kent Tour</div></div>
             <div class="credit-item"><div><div class="credit-title">Aida</div><div class="credit-role">Princess Daughter</div></div><div class="credit-where">Ellen Kent Tour</div></div>
           </div>
           <div class="credits-group">
-            <div class="credits-col-title">Film</div>
-            <div class="credit-item"><div><div class="credit-title">Behind The Beautiful Forevers</div><div class="credit-role">Noori</div></div><div class="credit-where">NT Live</div></div>
+            <div class="credits-col-title">
+              <svg class="cat-icon" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/><line x1="17" y1="17" x2="22" y2="17"/></svg>
+              Film
+            </div>
+            <div class="credit-item credit-featured"><div><div class="credit-title">Behind The Beautiful Forevers</div><div class="credit-role">Noori</div></div><div class="credit-where">NT Live</div></div>
           </div>
         </div>
         <div>
           <div class="credits-group">
-            <div class="credits-col-title">Television</div>
-            <div class="credit-item"><div><div class="credit-title">The Honorable Woman</div><div class="credit-role">Seed's Daughter</div></div><div class="credit-where">BBC</div></div>
-            <div class="credit-item"><div><div class="credit-title">Thunderbirds Are Go</div><div class="credit-role">Ava & Lettie (Voice)</div></div><div class="credit-where">ITV</div></div>
+            <div class="credits-col-title">
+              <svg class="cat-icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="13" rx="2"/><path d="M9 3l3 4 3-4"/></svg>
+              Television
+            </div>
+            <div class="credit-item credit-featured"><div><div class="credit-title">The Honorable Woman</div><div class="credit-role">Seed's Daughter</div></div><div class="credit-where"><span class="credit-badge">BBC</span></div></div>
+            <div class="credit-item credit-featured"><div><div class="credit-title">Thunderbirds Are Go</div><div class="credit-role">Ava &amp; Lettie (Voice)</div></div><div class="credit-where"><span class="credit-badge">ITV</span></div></div>
             <div class="credit-item"><div><div class="credit-title">John Bishop: Only Joking</div><div class="credit-role">Comedienne</div></div><div class="credit-where">Sky 1</div></div>
           </div>
           <div class="credits-group">
-            <div class="credits-col-title">Radio</div>
-            <div class="credit-item"><div><div class="credit-title">Tumanbay</div><div class="credit-role">Young General Qulan</div></div><div class="credit-where">BBC Radio 4</div></div>
+            <div class="credits-col-title">
+              <svg class="cat-icon" viewBox="0 0 24 24"><rect x="1" y="9" width="22" height="13" rx="2"/><path d="M5 9V7l14-3v2"/><circle cx="17" cy="15" r="2"/><line x1="5" y1="13" x2="11" y2="13"/><line x1="5" y1="16" x2="11" y2="16"/></svg>
+              Radio
+            </div>
+            <div class="credit-item credit-featured"><div><div class="credit-title">Tumanbay</div><div class="credit-role">Young General Qulan</div></div><div class="credit-where"><span class="credit-badge">BBC R4</span></div></div>
           </div>
           <div class="credits-group">
-            <div class="credits-col-title">Commercials</div>
+            <div class="credits-col-title">
+              <svg class="cat-icon" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>
+              Commercials
+            </div>
             <div class="credit-item"><div><div class="credit-title">NSPCC</div><div class="credit-role">Lead Girl</div></div></div>
             <div class="credit-item"><div><div class="credit-title">Nutella</div><div class="credit-role">Child</div></div></div>
             <div class="credit-item"><div><div class="credit-title">Boots — Christmas Campaign</div><div class="credit-role">School Girl</div></div></div>
@@ -738,12 +860,30 @@ href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 
     <div id="photo-filters">
       <div class="filters-inner">
         <span class="filter-label" data-en="Filter" data-fr="Filtrer">Filter</span>
-        <button class="filter-btn active" data-filter="all"       data-en="All"       data-fr="Tout">All</button>
-        <button class="filter-btn"        data-filter="portrait"  data-en="Portrait"  data-fr="Portrait">Portrait</button>
-        <button class="filter-btn"        data-filter="fashion"   data-en="Fashion"   data-fr="Mode">Fashion</button>
-        <button class="filter-btn"        data-filter="landscape" data-en="Landscape" data-fr="Paysage">Landscape</button>
-        <button class="filter-btn"        data-filter="product"   data-en="Product"   data-fr="Produit">Product</button>
-        <button class="filter-btn"        data-filter="creative"  data-en="Creative"  data-fr="Créatif">Creative</button>
+        <button class="filter-btn active" data-filter="all">
+          <svg class="f-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <span data-en="All" data-fr="Tout">All</span>
+        </button>
+        <button class="filter-btn" data-filter="portrait">
+          <svg class="f-icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <span data-en="Portrait" data-fr="Portrait">Portrait</span>
+        </button>
+        <button class="filter-btn" data-filter="fashion">
+          <svg class="f-icon" viewBox="0 0 24 24"><path d="M12 3a2 2 0 012 2c0 .9-.5 1.6-1.2 1.9L20 14H4l7.2-7.1C10.5 6.6 10 5.9 10 5a2 2 0 012-2z"/></svg>
+          <span data-en="Fashion" data-fr="Mode">Fashion</span>
+        </button>
+        <button class="filter-btn" data-filter="landscape">
+          <svg class="f-icon" viewBox="0 0 24 24"><path d="M3 20l5-9 4 6 3-4 5 7H3z"/><circle cx="19" cy="6" r="2"/></svg>
+          <span data-en="Landscape" data-fr="Paysage">Landscape</span>
+        </button>
+        <button class="filter-btn" data-filter="product">
+          <svg class="f-icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          <span data-en="Product" data-fr="Produit">Product</span>
+        </button>
+        <button class="filter-btn" data-filter="creative">
+          <svg class="f-icon" viewBox="0 0 24 24"><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+          <span data-en="Creative" data-fr="Créatif">Creative</span>
+        </button>
       </div>
     </div>
 
@@ -751,62 +891,77 @@ href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 
       <div class="masonry" id="grid">
         <div class="g-item" data-cat="portrait" data-title="Golden Hour" data-sub="Portrait">
           <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1964&auto=format&fit=crop" alt="Portrait" loading="lazy">
+          <span class="g-cat-badge">Portrait</span>
           <div class="g-overlay"><h4>Golden Hour</h4><span>Portrait</span></div>
         </div>
         <div class="g-item" data-cat="fashion" data-title="Editorial Black" data-sub="Fashion">
           <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=2070&auto=format&fit=crop" alt="Fashion" loading="lazy">
+          <span class="g-cat-badge">Fashion</span>
           <div class="g-overlay"><h4>Editorial Black</h4><span>Fashion</span></div>
         </div>
         <div class="g-item" data-cat="landscape" data-title="Misty Mountains" data-sub="Landscape">
           <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop" alt="Landscape" loading="lazy">
+          <span class="g-cat-badge">Landscape</span>
           <div class="g-overlay"><h4>Misty Mountains</h4><span>Landscape</span></div>
         </div>
         <div class="g-item" data-cat="portrait" data-title="Soft Light" data-sub="Portrait">
           <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto=format&fit=crop" alt="Portrait" loading="lazy">
+          <span class="g-cat-badge">Portrait</span>
           <div class="g-overlay"><h4>Soft Light</h4><span>Portrait</span></div>
         </div>
         <div class="g-item" data-cat="product" data-title="Minimal Watch" data-sub="Product">
           <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1999&auto=format&fit=crop" alt="Product" loading="lazy">
+          <span class="g-cat-badge">Product</span>
           <div class="g-overlay"><h4>Minimal Watch</h4><span>Product</span></div>
         </div>
         <div class="g-item" data-cat="creative" data-title="Digital Dreams" data-sub="Creative">
           <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop" alt="Creative" loading="lazy">
+          <span class="g-cat-badge">Creative</span>
           <div class="g-overlay"><h4>Digital Dreams</h4><span>Creative</span></div>
         </div>
         <div class="g-item" data-cat="landscape" data-title="Ocean Dusk" data-sub="Landscape">
           <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=2070&auto=format&fit=crop" alt="Landscape" loading="lazy">
+          <span class="g-cat-badge">Landscape</span>
           <div class="g-overlay"><h4>Ocean Dusk</h4><span>Landscape</span></div>
         </div>
         <div class="g-item" data-cat="fashion" data-title="Paris Streets" data-sub="Fashion">
           <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070&auto=format&fit=crop" alt="Fashion" loading="lazy">
+          <span class="g-cat-badge">Fashion</span>
           <div class="g-overlay"><h4>Paris Streets</h4><span>Fashion</span></div>
         </div>
         <div class="g-item" data-cat="portrait" data-title="Into the Light" data-sub="Portrait">
           <img src="https://images.unsplash.com/photo-1488161628813-04466f872be2?q=80&w=1964&auto=format&fit=crop" alt="Portrait" loading="lazy">
+          <span class="g-cat-badge">Portrait</span>
           <div class="g-overlay"><h4>Into the Light</h4><span>Portrait</span></div>
         </div>
         <div class="g-item" data-cat="creative" data-title="Abstract Shapes" data-sub="Creative">
           <img src="https://images.unsplash.com/photo-1493612276216-ee3925520721?q=80&w=2070&auto=format&fit=crop" alt="Creative" loading="lazy">
+          <span class="g-cat-badge">Creative</span>
           <div class="g-overlay"><h4>Abstract Shapes</h4><span>Creative</span></div>
         </div>
         <div class="g-item" data-cat="product" data-title="Parfum" data-sub="Product">
           <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=1974&auto=format&fit=crop" alt="Product" loading="lazy">
+          <span class="g-cat-badge">Product</span>
           <div class="g-overlay"><h4>Parfum</h4><span>Product</span></div>
         </div>
         <div class="g-item" data-cat="landscape" data-title="Forest Silence" data-sub="Landscape">
           <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2070&auto=format&fit=crop" alt="Landscape" loading="lazy">
+          <span class="g-cat-badge">Landscape</span>
           <div class="g-overlay"><h4>Forest Silence</h4><span>Landscape</span></div>
         </div>
         <div class="g-item" data-cat="fashion" data-title="Soft Femininity" data-sub="Fashion">
           <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=2073&auto=format&fit=crop" alt="Fashion" loading="lazy">
+          <span class="g-cat-badge">Fashion</span>
           <div class="g-overlay"><h4>Soft Femininity</h4><span>Fashion</span></div>
         </div>
         <div class="g-item" data-cat="portrait" data-title="Reverie" data-sub="Portrait">
           <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1974&auto=format&fit=crop" alt="Portrait" loading="lazy">
+          <span class="g-cat-badge">Portrait</span>
           <div class="g-overlay"><h4>Reverie</h4><span>Portrait</span></div>
         </div>
         <div class="g-item" data-cat="creative" data-title="Light & Geometry" data-sub="Creative">
           <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=2070&auto=format&fit=crop" alt="Creative" loading="lazy">
+          <span class="g-cat-badge">Creative</span>
           <div class="g-overlay"><h4>Light &amp; Geometry</h4><span>Creative</span></div>
         </div>
       </div>
